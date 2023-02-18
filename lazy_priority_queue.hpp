@@ -1,9 +1,10 @@
 #include <queue>
 #include <tuple>
 
+template <class T>
 class lazy_priority_queue {
   public:
-    int top() const {
+    T top() const {
       while (!remove_.empty() && remove_.top() == insert_.top()) {
         remove_.pop();
         insert_.pop();
@@ -19,7 +20,7 @@ class lazy_priority_queue {
       return size_;
     }
 
-    void push(int value) {
+    void push(T value) {
       ++size_;
       insert_.push(value);
     }
@@ -30,13 +31,13 @@ class lazy_priority_queue {
       insert_.pop();
     }
 
-    void erase(int value) {
+    void erase(T value) {
       --size_;
       remove_.push(value);
     }
 
   private:
     int size_{0};
-    mutable std::priority_queue<int> insert_;
-    mutable std::priority_queue<int> remove_;
+    mutable std::priority_queue<T> insert_;
+    mutable std::priority_queue<T> remove_;
 };
