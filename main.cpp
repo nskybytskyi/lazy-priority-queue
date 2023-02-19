@@ -1,4 +1,5 @@
 #include <cassert>
+#include <deque>
 #include <string>
 
 #include "lazy_priority_queue.hpp"
@@ -68,6 +69,41 @@ int main() {
     assert(!queue.empty());
     assert(queue.size() == 1);
     assert(queue.top() == "hello");
+
+    queue.pop();
+    assert(queue.empty());
+    assert(queue.size() == 0);
+  }
+
+  {
+    lazy_priority_queue<int, std::deque<int>> queue;
+    assert(queue.empty());
+    assert(queue.size() == 0);
+
+    queue.push(1);
+    assert(!queue.empty());
+    assert(queue.size() == 1);
+    assert(queue.top() == 1);
+
+    queue.push(3);
+    assert(!queue.empty());
+    assert(queue.size() == 2);
+    assert(queue.top() == 3);
+
+    queue.push(2);
+    assert(!queue.empty());
+    assert(queue.size() == 3);
+    assert(queue.top() == 3);
+
+    queue.erase(2);
+    assert(!queue.empty());
+    assert(queue.size() == 2);
+    assert(queue.top() == 3);
+
+    queue.pop();
+    assert(!queue.empty());
+    assert(queue.size() == 1);
+    assert(queue.top() == 1);
 
     queue.pop();
     assert(queue.empty());
