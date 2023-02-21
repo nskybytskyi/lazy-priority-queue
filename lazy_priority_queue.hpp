@@ -1,10 +1,16 @@
+#include <functional>
 #include <queue>
 #include <tuple>
 #include <vector>
 
-template <class T, class Container = std::vector<T> >
+template <class T, class Container = std::vector<T>,
+          class Compare = std::less<T>>
 class lazy_priority_queue {
  public:
+  lazy_priority_queue() : lazy_priority_queue(Compare()) {}
+  lazy_priority_queue(const Compare& compare)
+      : insert_(compare), remove_(compare) {}
+
   const T& top() const {
     while (!remove_.empty() && remove_.top() == insert_.top()) {
       remove_.pop();
@@ -35,6 +41,6 @@ class lazy_priority_queue {
 
  private:
   int size_{0};
-  mutable std::priority_queue<T, Container> insert_;
-  mutable std::priority_queue<T, Container> remove_;
+  mutable std::priority_queue<T, Container, Compare> insert_;
+  mutable std::priority_queue<T, Container, Compare> remove_;
 };
