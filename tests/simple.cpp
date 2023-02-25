@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "lazy_priority_queue.hpp"
+#include "../src/lib.hpp"
 
 int main() {
   {
