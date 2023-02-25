@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "../src/lib.hpp"
+#include "lib.hpp"
 
 int main() {
   {
