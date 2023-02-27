@@ -43,6 +43,41 @@ int main() {
   }
 
   {
+    lazy_priority_queue<bool> queue;
+    assert(queue.empty());
+    assert(queue.size() == 0);
+
+    queue.push(false);
+    assert(!queue.empty());
+    assert(queue.size() == 1);
+    assert(queue.top() == false);
+
+    queue.push(true);
+    assert(!queue.empty());
+    assert(queue.size() == 2);
+    assert(queue.top() == true);
+
+    queue.push(false);
+    assert(!queue.empty());
+    assert(queue.size() == 3);
+    assert(queue.top() == true);
+
+    queue.erase(false);
+    assert(!queue.empty());
+    assert(queue.size() == 2);
+    assert(queue.top() == true);
+
+    queue.pop();
+    assert(!queue.empty());
+    assert(queue.size() == 1);
+    assert(queue.top() == false);
+
+    queue.pop();
+    assert(queue.empty());
+    assert(queue.size() == 0);
+  }
+
+  {
     lazy_priority_queue<std::string> queue;
     assert(queue.empty());
     assert(queue.size() == 0);

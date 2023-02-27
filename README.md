@@ -3,7 +3,7 @@ An explicit removal is performed only when the accessed top element has been rem
 The behavior is undefined if the element being removed was not present in the queue. 
 
 This project uses a variety of tools and utilities that accompany the algorithmic part:
-- [ ] CMake;
+- [x] CMake;
 - [ ] Clang Tools:
     - [x] clang-format;
     - [ ] clang-tidy.
