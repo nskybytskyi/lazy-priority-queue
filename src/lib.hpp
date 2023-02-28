@@ -22,25 +22,20 @@ class lazy_priority_queue {
     return insert_.top();
   }
 
-  bool empty() const { return size_ == 0; }
+  bool empty() const { return size() == 0; }
 
-  int size() const { return size_; }
-
-  void push(const value_type& value) {
-    ++size_;
-    insert_.push(value);
+  int size() const {
+    return static_cast<int>(insert_.size()) - static_cast<int>(remove_.size());
   }
 
+  void push(const value_type& value) { insert_.push(value); }
+
   void pop() {
-    --size_;
     std::ignore = top();
     insert_.pop();
   }
 
-  void erase(const value_type& value) {
-    --size_;
-    remove_.push(value);
-  }
+  void erase(const value_type& value) { remove_.push(value); }
 
  private:
   int size_{0};
