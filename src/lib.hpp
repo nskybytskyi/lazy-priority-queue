@@ -30,6 +30,13 @@ class lazy_priority_queue {
 
   void push(const value_type& value) { insert_.push(value); }
 
+  template <class InputIt>
+  void push(InputIt first, InputIt last) {
+    for (auto it = first; it != last; ++it) {
+      push(*it);
+    }
+  }
+
   void pop() {
     std::ignore = top();
     insert_.pop();
@@ -37,8 +44,14 @@ class lazy_priority_queue {
 
   void erase(const value_type& value) { remove_.push(value); }
 
+  template <class InputIt>
+  void erase(InputIt first, InputIt last) {
+    for (auto it = first; it != last; ++it) {
+      erase(*it);
+    }
+  }
+
  private:
-  int size_{0};
   mutable std::priority_queue<T, Container, Compare> insert_;
   mutable std::priority_queue<T, Container, Compare> remove_;
 };
