@@ -1,4 +1,5 @@
 #include <functional>
+#include <iterator>
 #include <queue>
 #include <tuple>
 #include <vector>
@@ -13,6 +14,15 @@ class lazy_priority_queue {
   lazy_priority_queue() : lazy_priority_queue(Compare()) {}
   lazy_priority_queue(const Compare& compare)
       : insert_(compare), remove_(compare) {}
+
+  template <class InputIt>
+  lazy_priority_queue(InputIt first, InputIt last,
+                      const Compare& compare = Compare())
+      : insert_(first, last, compare), remove_(compare) {}
+  template <class InputIt>
+  lazy_priority_queue(InputIt first, InputIt last, const Compare& compare,
+                      const Container& cont)
+      : insert_(first, last, compare, cont), remove_(compare) {}
 
   const_reference top() const {
     while (!remove_.empty() && remove_.top() == insert_.top()) {
@@ -55,3 +65,12 @@ class lazy_priority_queue {
   mutable std::priority_queue<T, Container, Compare> insert_;
   mutable std::priority_queue<T, Container, Compare> remove_;
 };
+
+template <
+    class InputIt,
+    class Comp = std::less<typename std::iterator_traits<InputIt>::value_type>,
+    class Container =
+        std::vector<typename std::iterator_traits<InputIt>::value_type>>
+lazy_priority_queue(InputIt, InputIt, Comp = Comp(), Container = Container())
+    -> lazy_priority_queue<typename std::iterator_traits<InputIt>::value_type,
+                           Container, Comp>;
