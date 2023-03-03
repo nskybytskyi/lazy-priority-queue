@@ -14,3 +14,4 @@ target_compile_options(compiler_flags INTERFACE
 
 add_subdirectory(src)
 add_subdirectory(tests)
+add_subdirectory(examples)
