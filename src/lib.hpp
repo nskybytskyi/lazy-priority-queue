@@ -40,7 +40,7 @@ class lazy_priority_queue {
   /// underlying comparison functor
   /// @param cont container to be used as source to initialize the underlying
   /// insert container
-  priority_queue(const Compare& compare, Container&& cont)
+  lazy_priority_queue(const Compare& compare, Container&& cont)
       : insert_(compare, cont), remove_(compare, Container()) {}
 
   /// @brief Constructs the underlying container from the `{first, last}` range
