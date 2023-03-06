@@ -12,7 +12,7 @@ class lazy_priority_queue {
   using const_reference = typename Container::const_reference;
 
   /// @brief Default constructor. Value-initializes the comparator and the
-  /// underlying containesr.
+  /// underlying containers.
   lazy_priority_queue() : lazy_priority_queue(Compare(), Container()) {}
 
   /// @brief Copy-constructs the comparison functor with the contents of
@@ -30,7 +30,7 @@ class lazy_priority_queue {
   /// @param cont container to be used as source to initialize the underlying
   /// insert container
   explicit lazy_priority_queue(const Compare& compare, const Container& cont)
-      : insert_(compare, cont), remove_(compare, Container()) {}
+      : comp_(compare), insert_(cont), remove_(Container()) {}
 
   /// @brief Move-constructs the underlying insert container with
   /// `std::move(cont)`. Value-initializes the underlying remove container.
@@ -41,7 +41,7 @@ class lazy_priority_queue {
   /// @param cont container to be used as source to initialize the underlying
   /// insert container
   lazy_priority_queue(const Compare& compare, Container&& cont)
-      : insert_(compare, cont), remove_(compare, Container()) {}
+      : comp_(compare), insert_(std::move(cont)), remove_(Container()) {}
 
   /// @brief Constructs the underlying container from the `{first, last}` range
   /// and the comparator from `compare`. Calls `std::make_heap`.
@@ -53,7 +53,9 @@ class lazy_priority_queue {
   template <class InputIt>
   lazy_priority_queue(InputIt first, InputIt last,
                       const Compare& compare = Compare())
-      : insert_(first, last, compare), remove_(compare) {}
+      : comp_(compare), insert_(first, last) {
+    std::make_heap(insert_.begin(), insert_.end(), comp_);
+  }
 
   /// @brief Copy-constructs the underlying insert container from `cont`.
   /// Value-initializes the underlying remove container. Copy-constructs the
@@ -70,14 +72,19 @@ class lazy_priority_queue {
   template <class InputIt>
   lazy_priority_queue(InputIt first, InputIt last, const Compare& compare,
                       const Container& cont)
-      : insert_(first, last, compare, cont), remove_(compare, Container()) {}
+      : comp_(compare), insert_(cont), remove_(Container()) {
+    insert_.insert(insert_.end(), first, last);
+    std::make_heap(insert_.begin(), insert_.end(), comp_);
+  }
 
-  const_reference top() const {
-    while (!remove_.empty() && remove_.top() == insert_.top()) {
-      remove_.pop();
-      insert_.pop();
+  const_reference top() const {  // TODO
+    while (!remove_.empty() && remove_.front() == insert_.front()) {
+      std::pop_heap(insert_.begin(), insert_.end(), comp_);
+      insert_.pop_back();
+      std::pop_heap(remove_.begin(), remove_.end(), comp_);
+      remove_.pop_back();
     }
-    return insert_.top();
+    return insert_.front();
   }
 
   bool empty() const { return size() == 0; }
@@ -86,7 +93,15 @@ class lazy_priority_queue {
     return static_cast<int>(insert_.size()) - static_cast<int>(remove_.size());
   }
 
-  void push(const value_type& value) { insert_.push(value); }
+  void push(const value_type& value) {
+    insert_.push_back(value);
+    std::push_heap(insert_.begin(), insert_.end(), comp_);
+  }
+
+  void push(value_type&& value) {
+    insert_.push_back(std::move(value));
+    std::push_heap(insert_.begin(), insert_.end(), comp_);
+  }
 
   template <class InputIt>
   void push(InputIt first, InputIt last) {
@@ -97,10 +112,19 @@ class lazy_priority_queue {
 
   void pop() {
     std::ignore = top();
-    insert_.pop();
+    std::pop_heap(insert_.begin(), insert_.end(), comp_);
+    insert_.pop_back();
   }
 
-  void erase(const value_type& value) { remove_.push(value); }
+  void erase(const value_type& value) {
+    remove_.push_back(value);
+    std::push_heap(remove_.begin(), remove_.end(), comp_);
+  }
+
+  void erase(value_type&& value) {
+    remove_.push_back(std::move(value));
+    std::push_heap(remove_.begin(), remove_.end(), comp_);
+  }
 
   template <class InputIt>
   void erase(InputIt first, InputIt last) {
@@ -110,9 +134,9 @@ class lazy_priority_queue {
   }
 
  private:
-  // TODO: do not duplicate Compare
-  mutable std::priority_queue<T, Container, Compare> insert_;
-  mutable std::priority_queue<T, Container, Compare> remove_;
+  Compare comp_;
+  mutable Container insert_;
+  mutable Container remove_;
 };
 
 template <
