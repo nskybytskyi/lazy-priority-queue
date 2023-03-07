@@ -143,6 +143,10 @@ class lazy_priority_queue {
   mutable Container remove_;
 };
 
+template <class Comp, class Container>
+lazy_priority_queue(Comp, Container)
+    -> lazy_priority_queue<typename Container::value_type, Container, Comp>;
+
 template <
     class InputIt,
     class Comp = std::less<typename std::iterator_traits<InputIt>::value_type>,
