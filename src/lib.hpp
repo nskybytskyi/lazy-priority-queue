@@ -30,7 +30,9 @@ class lazy_priority_queue {
   /// @param cont container to be used as source to initialize the underlying
   /// insert container
   explicit lazy_priority_queue(const Compare& compare, const Container& cont)
-      : comp_(compare), insert_(cont), remove_(Container()) {}
+      : comp_(compare), insert_(cont), remove_(Container()) {
+    std::make_heap(insert_.begin(), insert_.end(), comp_);
+  }
 
   /// @brief Move-constructs the underlying insert container with
   /// `std::move(cont)`. Value-initializes the underlying remove container.
@@ -41,7 +43,9 @@ class lazy_priority_queue {
   /// @param cont container to be used as source to initialize the underlying
   /// insert container
   lazy_priority_queue(const Compare& compare, Container&& cont)
-      : comp_(compare), insert_(std::move(cont)), remove_(Container()) {}
+      : comp_(compare), insert_(std::move(cont)), remove_(Container()) {
+    std::make_heap(insert_.begin(), insert_.end(), comp_);
+  }
 
   /// @brief Constructs the underlying container from the `{first, last}` range
   /// and the comparator from `compare`. Calls `std::make_heap`.
@@ -53,7 +57,7 @@ class lazy_priority_queue {
   template <class InputIt>
   lazy_priority_queue(InputIt first, InputIt last,
                       const Compare& compare = Compare())
-      : comp_(compare), insert_(first, last) {
+      : comp_(compare), insert_(first, last), remove_(Container()) {
     std::make_heap(insert_.begin(), insert_.end(), comp_);
   }
 
