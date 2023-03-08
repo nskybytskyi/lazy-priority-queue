@@ -137,6 +137,19 @@ class lazy_priority_queue {
     }
   }
 
+  /// @brief Pushes a new element to the priority queue. The element is
+  /// constructed in-place, i.e. no copy or move operations are performed. The
+  /// constructor of the element is called with exactly the same arguments as
+  /// supplied to the function.
+  /// @param args	arguments to forward to the constructor of the element
+  /// @see push()
+  /// @see pop()
+  template <class... Args>
+  void emplace(Args&&... args) {
+    insert_.emplace_back(std::forward<Args>(args)...);
+    std::push_heap(insert_.begin(), insert_.end(), comp_);
+  }
+
  private:
   Compare comp_;
   mutable Container insert_;
