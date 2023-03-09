@@ -14,7 +14,7 @@ This project uses a variety of tools and utilities that accompany the algorithmi
     - [x] gitattributes.
 - [ ] CI:
     - [ ] git hooks;
-    - [ ] doxygen.
+    - [x] doxygen.
 
 In the future I may consider adding the following tools and utilities to the project:
 - cppcheck;
