@@ -1,7 +1,10 @@
 link_libraries(compiler_flags lib)
 include_directories("${PROJECT_SOURCE_DIR}/src")
 
-add_executable(simple_example simple.cpp)
-add_executable(events_example events.cpp)
-add_executable(emplace_example emplace.cpp)
+add_executable(constructors_example constructors.cpp)
 add_executable(deductions_example deductions.cpp)
+add_executable(emplace_example emplace.cpp)
+add_executable(empty_example empty.cpp)
+add_executable(events_example events.cpp)
+add_executable(simple_example simple.cpp)
+add_executable(size_example size.cpp)
