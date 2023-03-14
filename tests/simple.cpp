@@ -1,3 +1,5 @@
+#include <gtest/gtest.h>
+
 #include <cassert>
 #include <deque>
 #include <functional>
@@ -6,181 +8,177 @@
 
 #include "lib.hpp"
 
-int main() {
-  {
-    lazy_priority_queue<int> queue;
-    assert(queue.empty());
-    assert(queue.size() == 0);
+TEST(LazyPriorityQueueTest, BasicAssertions) {
+  lazy_priority_queue<int> queue;
+  EXPECT_EQ(queue.size(), 0);
+  EXPECT_TRUE(queue.empty());
 
-    queue.push(1);
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == 1);
+  queue.push(1);
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 1);
 
-    queue.push(3);
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == 3);
+  queue.push(3);
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 3);
 
-    queue.push(2);
-    assert(!queue.empty());
-    assert(queue.size() == 3);
-    assert(queue.top() == 3);
+  queue.push(2);
+  EXPECT_EQ(queue.size(), 3);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 3);
 
-    queue.erase(2);
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == 3);
+  queue.erase(2);
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 3);
 
-    queue.pop();
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == 1);
+  queue.pop();
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 1);
 
-    queue.pop();
-    assert(queue.empty());
-    assert(queue.size() == 0);
-  }
+  queue.pop();
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
+}
 
-  {
-    lazy_priority_queue<bool> queue;
-    assert(queue.empty());
-    assert(queue.size() == 0);
+TEST(LazyPriorityQueueTest, ProxiedContainers) {
+  lazy_priority_queue<bool> queue;
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
 
-    queue.push(false);
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == false);
+  queue.push(false);
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_FALSE(queue.top());
 
-    queue.push(true);
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == true);
+  queue.push(true);
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_TRUE(queue.top());
 
-    queue.push(false);
-    assert(!queue.empty());
-    assert(queue.size() == 3);
-    assert(queue.top() == true);
+  queue.push(false);
+  EXPECT_EQ(queue.size(), 3);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_TRUE(queue.top());
 
-    queue.erase(false);
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == true);
+  queue.erase(false);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.size(), 2);
+  EXPECT_TRUE(queue.top());
 
-    queue.pop();
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == false);
+  queue.pop();
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.size(), 1);
+  EXPECT_FALSE(queue.top());
 
-    queue.pop();
-    assert(queue.empty());
-    assert(queue.size() == 0);
-  }
+  queue.pop();
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
+}
 
-  {
-    lazy_priority_queue<std::string> queue;
-    assert(queue.empty());
-    assert(queue.size() == 0);
+TEST(LazyPriorityQueueTest, ValueType) {
+  lazy_priority_queue<std::string> queue;
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
 
-    queue.push("hello");
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == "hello");
+  queue.push("hello");
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), "hello");
 
-    queue.push("world");
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == "world");
+  queue.push("world");
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), "world");
 
-    queue.push("nicky");
-    assert(!queue.empty());
-    assert(queue.size() == 3);
-    assert(queue.top() == "world");
+  queue.push("nicky");
+  EXPECT_EQ(queue.size(), 3);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), "world");
 
-    queue.erase("nicky");
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == "world");
+  queue.erase("nicky");
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), "world");
 
-    queue.pop();
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == "hello");
+  queue.pop();
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), "hello");
 
-    queue.pop();
-    assert(queue.empty());
-    assert(queue.size() == 0);
-  }
+  queue.pop();
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
+}
 
-  {
-    lazy_priority_queue<int, std::deque<int>> queue;
-    assert(queue.empty());
-    assert(queue.size() == 0);
+TEST(LazyPriorityQueueTest, Container) {
+  lazy_priority_queue<int, std::deque<int>> queue;
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
 
-    queue.push(1);
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == 1);
+  queue.push(1);
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 1);
 
-    queue.push(3);
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == 3);
+  queue.push(3);
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 3);
 
-    queue.push(2);
-    assert(!queue.empty());
-    assert(queue.size() == 3);
-    assert(queue.top() == 3);
+  queue.push(2);
+  EXPECT_EQ(queue.size(), 3);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 3);
 
-    queue.erase(2);
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == 3);
+  queue.erase(2);
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 3);
 
-    queue.pop();
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == 1);
+  queue.pop();
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 1);
 
-    queue.pop();
-    assert(queue.empty());
-    assert(queue.size() == 0);
-  }
+  queue.pop();
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
+}
 
-  {
-    lazy_priority_queue<int, std::vector<int>, std::greater<int>> queue;
-    assert(queue.empty());
-    assert(queue.size() == 0);
+TEST(LazyPriorityQueueTest, Compare) {
+  lazy_priority_queue<int, std::vector<int>, std::greater<int>> queue;
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
 
-    queue.push(3);
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == 3);
+  queue.push(3);
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 3);
 
-    queue.push(1);
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == 1);
+  queue.push(1);
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 1);
 
-    queue.push(2);
-    assert(!queue.empty());
-    assert(queue.size() == 3);
-    assert(queue.top() == 1);
+  queue.push(2);
+  EXPECT_EQ(queue.size(), 3);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 1);
 
-    queue.erase(2);
-    assert(!queue.empty());
-    assert(queue.size() == 2);
-    assert(queue.top() == 1);
+  queue.erase(2);
+  EXPECT_EQ(queue.size(), 2);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 1);
 
-    queue.pop();
-    assert(!queue.empty());
-    assert(queue.size() == 1);
-    assert(queue.top() == 3);
+  queue.pop();
+  EXPECT_EQ(queue.size(), 1);
+  ASSERT_FALSE(queue.empty());
+  EXPECT_EQ(queue.top(), 3);
 
-    queue.pop();
-    assert(queue.empty());
-    assert(queue.size() == 0);
-  }
-
-  return 0;
+  queue.pop();
+  EXPECT_TRUE(queue.empty());
+  EXPECT_EQ(queue.size(), 0);
 }
