@@ -5,6 +5,15 @@ project(lazy_priority_queue VERSION 0.1)
 add_library(compiler_flags INTERFACE)
 target_compile_features(compiler_flags INTERFACE cxx_std_17)
 
+set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
+set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
+target_compile_options(compiler_flags INTERFACE
+  "$<${gcc_like_cxx}:-Wall;-Wextra;-Werror>"
+  "$<${msvc_cxx}:-W3>"
+)
+
+enable_testing()
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -13,16 +22,8 @@ FetchContent_Declare(
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
-
-set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
-set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
-target_compile_options(compiler_flags INTERFACE
-  "$<${gcc_like_cxx}:-Wall;-Wextra;-Werror>"
-  "$<${msvc_cxx}:-W3>"
-)
+include(GoogleTest)
 
 add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(examples)
-
-enable_testing()
