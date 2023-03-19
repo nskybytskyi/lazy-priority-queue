@@ -8,7 +8,7 @@
 
 #include "lib.hpp"
 
-TEST(LazyPriorityQueueTest, BasicAssertions) {
+TEST(InterfaceTest, BasicAssertions) {
   lazy_priority_queue<int> queue;
   EXPECT_EQ(queue.size(), 0);
   EXPECT_TRUE(queue.empty());
@@ -43,7 +43,7 @@ TEST(LazyPriorityQueueTest, BasicAssertions) {
   EXPECT_EQ(queue.size(), 0);
 }
 
-TEST(LazyPriorityQueueTest, ProxiedContainers) {
+TEST(InterfaceTest, ProxiedContainers) {
   lazy_priority_queue<bool> queue;
   EXPECT_TRUE(queue.empty());
   EXPECT_EQ(queue.size(), 0);
@@ -78,7 +78,7 @@ TEST(LazyPriorityQueueTest, ProxiedContainers) {
   EXPECT_EQ(queue.size(), 0);
 }
 
-TEST(LazyPriorityQueueTest, ValueType) {
+TEST(InterfaceTest, ValueType) {
   lazy_priority_queue<std::string> queue;
   EXPECT_TRUE(queue.empty());
   EXPECT_EQ(queue.size(), 0);
@@ -113,7 +113,7 @@ TEST(LazyPriorityQueueTest, ValueType) {
   EXPECT_EQ(queue.size(), 0);
 }
 
-TEST(LazyPriorityQueueTest, Container) {
+TEST(InterfaceTest, Container) {
   lazy_priority_queue<int, std::deque<int>> queue;
   EXPECT_TRUE(queue.empty());
   EXPECT_EQ(queue.size(), 0);
@@ -148,7 +148,7 @@ TEST(LazyPriorityQueueTest, Container) {
   EXPECT_EQ(queue.size(), 0);
 }
 
-TEST(LazyPriorityQueueTest, Compare) {
+TEST(InterfaceTest, Compare) {
   lazy_priority_queue<int, std::vector<int>, std::greater<int>> queue;
   EXPECT_TRUE(queue.empty());
   EXPECT_EQ(queue.size(), 0);
