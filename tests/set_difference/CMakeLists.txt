@@ -1,0 +1,3 @@
+add_executable(generate_queries_test generate_queries.cpp)
+
+gtest_discover_tests(generate_queries_test)
