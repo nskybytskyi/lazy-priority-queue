@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Defines a utility function to generate random set difference queries.
+ */
+
 #include <algorithm>
 #include <cassert>
 #include <iterator>
@@ -7,7 +12,7 @@
 /// @brief Generates insertion and removal queries.
 /// @param num_insertions the number of insertion queries to generate
 /// @param num_removals the number of removal queries to generate
-/// @param max_value a maximum value that could appear is queries, inclusive
+/// @param max_value an upper bound on the values appearing in queries
 /// @param seed a seed to use for random number generation
 /// @return a list of random queries where nonnegative values represent
 /// insertions and negative ones represent removals, with ~x removing a
@@ -16,14 +21,14 @@ std::vector<int> generate_random_queries(int num_insertions, int num_removals,
                                          int max_value, int seed) {
   assert(0 <= num_removals && num_removals <= num_insertions &&
          num_insertions <= 100'000'000);
-  assert(0 <= max_value);
+  assert(0 < max_value);
 
   std::mt19937 gen(seed);
-  std::uniform_int_distribution<int> dist(0, max_value);
 
   std::vector<int> insertions(num_insertions);
   for (auto& insertion : insertions) {
-    insertion = dist(gen);
+    // Note: std::uniform_int_distribution is not portable
+    insertion = ((gen() % max_value) + max_value) % max_value;
   }
 
   // Note: for heavy structs use a subset of indices instead
