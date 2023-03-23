@@ -28,16 +28,20 @@ std::vector<int> generate_random_queries(int num_insertions, int num_removals,
   std::vector<int> insertions(num_insertions);
   for (auto& insertion : insertions) {
     // Note: std::uniform_int_distribution is not portable
-    insertion = ((gen() % max_value) + max_value) % max_value;
+    insertion = gen() % max_value;
   }
 
-  // Note: for heavy structs use a subset of indices instead
   std::vector<int> removals = insertions;
-  for (auto& removal : removals) {
-    removal = ~removal;
+  // Note: std::shuffle is not portable either
+  for (int first = 0; first < num_removals; ++first) {
+    const int second = gen() % num_insertions;
+    std::swap(removals[first], removals[second]);
   }
 
-  std::shuffle(removals.begin(), removals.end(), gen);
+  for (int first = 0; first < num_removals; ++first) {
+    removals[first] = ~removals[first];
+  }
+
   copy(removals.cbegin(), next(removals.cbegin(), num_removals),
        std::back_inserter(insertions));
   return insertions;
