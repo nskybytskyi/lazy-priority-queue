@@ -1,3 +1,5 @@
 add_executable(generate_queries_test generate_queries.cpp)
+add_executable(process_queries_test process_queries.cpp)
 
 gtest_discover_tests(generate_queries_test)
+gtest_discover_tests(process_queries_test)
