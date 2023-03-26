@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Defines three algorithms capable of processing set difference queries.
+ */
+
 #include <algorithm>
 #include <iterator>
 #include <set>
@@ -5,6 +10,13 @@
 
 #include "lib.hpp"
 
+/// @brief Processes set difference queries using sorting and
+/// std::set_difference. This is an
+/// [offline](https://en.wikipedia.org/wiki/Online_algorithm) algorithm.
+/// @param queries a list of queries where nonnegative values represent
+/// insertions and negative ones represent removals, with ~x removing a
+/// previously inserted value of x
+/// @return (multi)set difference of all inserted
 std::vector<int> process_queries_sort(std::vector<int> queries) {
   auto pivot_it = std::find_if(queries.begin(), queries.end(),
                                [](auto&& query) { return query < 0; });
@@ -21,6 +33,12 @@ std::vector<int> process_queries_sort(std::vector<int> queries) {
   return answer;
 }
 
+/// @brief Processes set difference queries using std::multiset. This is an
+/// [online](https://en.wikipedia.org/wiki/Online_algorithm) algorithm.
+/// @param queries a list of queries where nonnegative values represent
+/// insertions and negative ones represent removals, with ~x removing a
+/// previously inserted value of x
+/// @return (multi)set difference of all inserted values and all removed values
 std::vector<int> process_queries_multiset(const std::vector<int>& queries) {
   std::multiset<int> container;
   for (const auto& query : queries) {
@@ -33,6 +51,12 @@ std::vector<int> process_queries_multiset(const std::vector<int>& queries) {
   return {container.cbegin(), container.cend()};
 }
 
+/// @brief Processes set difference queries using a lazy priority queue. This is
+/// an [offline](https://en.wikipedia.org/wiki/Online_algorithm) algorithm.
+/// @param queries a list of queries where nonnegative values represent
+/// insertions and negative ones represent removals, with ~x removing a
+/// previously inserted value of x
+/// @return (multi)set difference of all inserted values and all removed values
 std::vector<int> process_queries_lazypq(const std::vector<int>& queries) {
   lazy_priority_queue<int> container;
   for (const auto& query : queries) {
