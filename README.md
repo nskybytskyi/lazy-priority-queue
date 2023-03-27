@@ -5,21 +5,38 @@ The behavior is undefined if the element being removed was not present in the qu
 [![Build Status (GitHub Actions)](https://github.com/nskybytskyi/lazy-priority-queue/workflows/CMake%20Tests/badge.svg)](https://github.com/nskybytskyi/lazy-priority-queue/actions?query=workflow%3A"CMake%20Tests")
 
 This project uses a variety of tools and utilities that accompany the algorithmic part:
-- [x] CMake;
-- [ ] Clang Tools:
-    - [x] clang-format;
-    - [ ] clang-tidy.
-- [x] Testing:
-    - [x] GoogleTest.
-- [x] Git:
-    - [x] gitignore;
-    - [x] gitattributes.
-- [ ] CI:
-    - [ ] git hooks;
-    - [x] CTest;
-    - [x] doxygen.
+- [x] CMake:
+    - [x] googletest integration;
+    - [ ] cppcheck integration;
+    - [ ] clang-tidy integration.
 
-In the future I may consider adding the following tools and utilities to the project:
-- cppcheck;
-- valgrind;
-- gprof/gperf.
+- [ ] Clang tools:
+    - [x] [clang-format](https://clang.llvm.org/docs/ClangFormat.html);
+    - [ ] [clang-tidy](https://clang.llvm.org/extra/clang-tidy/).
+
+- [ ] Correctness and performance:
+    - [x] [googletest](https://github.com/google/googletest);
+    - [ ] test coverage analysis with codecov;
+    - [ ] runtime analysis:
+        - [ ] address sanitizer;
+        - [ ] undefined-behavior sanitizer;
+        - [ ] memory sanitizer;
+        - [ ] valgrind?
+    - [ ] [google/benchmark](https://github.com/google/benchmark).
+
+- [x] Git utilities:
+    - [x] [gitignore](https://github.com/github/gitignore);
+    - [x] [gitattributes](https://github.com/alexkaratarakis/gitattributes).
+
+- [ ] GitHub actions & workflows:
+    - [x] testing;
+    - [ ] benchmarking;
+    - [ ] codecov integration;
+    - [ ] documentation generation;
+    - [ ] documentation publishing.
+
+- [ ] GitHub community guidelines:
+    - [x] code of conduct;
+    - [ ] contributing guidelines;
+    - [ ] security policy;
+    - [ ] issue and PR templates.
