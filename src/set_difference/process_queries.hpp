@@ -39,7 +39,8 @@ std::vector<int> process_queries_sort(std::vector<int> queries) {
 /// insertions and negative ones represent removals, with ~x removing a
 /// previously inserted value of x
 /// @return (multi)set difference of all inserted values and all removed values
-std::vector<int> process_queries_multiset(const std::vector<int>& queries) {
+[[nodiscard]] std::vector<int> process_queries_multiset(
+    const std::vector<int>& queries) {
   std::multiset<int> container;
   for (const auto& query : queries) {
     if (query >= 0) {
@@ -57,7 +58,8 @@ std::vector<int> process_queries_multiset(const std::vector<int>& queries) {
 /// insertions and negative ones represent removals, with ~x removing a
 /// previously inserted value of x
 /// @return (multi)set difference of all inserted values and all removed values
-std::vector<int> process_queries_lazypq(const std::vector<int>& queries) {
+[[nodiscard]] std::vector<int> process_queries_lazypq(
+    const std::vector<int>& queries) {
   lazy_priority_queue<int> container;
   for (const auto& query : queries) {
     if (query >= 0) {

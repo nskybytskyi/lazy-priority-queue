@@ -133,7 +133,7 @@ class lazy_priority_queue {
   /// @return Reference to the top element as if obtained by a call to
   /// `insert_.front()`
   /// @see pop()
-  const_reference top() const {
+  [[nodiscard]] const_reference top() const {
     while (!remove_.empty() && remove_.front() == insert_.front()) {
       std::pop_heap(insert_.begin(), insert_.end(), comp_);
       insert_.pop_back();
@@ -147,13 +147,13 @@ class lazy_priority_queue {
   /// `insert_` contains elements that `remove_` does not
   /// @return `true` if the underlying container is empty, `false` otherwise
   /// @see size()
-  bool empty() const { return size() == 0; }
+  [[nodiscard]] bool empty() const { return size() == 0; }
 
   /// @brief Returns the number of elements in the underlying containers, that
   /// is, `insert_.size() - remove_.size()`
   /// @return The number of elements in the container.
   /// @see empty()
-  int size() const {
+  [[nodiscard]] int size() const {
     return static_cast<int>(insert_.size()) - static_cast<int>(remove_.size());
   }
 

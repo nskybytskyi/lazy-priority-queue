@@ -17,8 +17,10 @@
 /// @return a list of random queries where nonnegative values represent
 /// insertions and negative ones represent removals, with ~x removing a
 /// previously inserted value of x
-std::vector<int> generate_random_queries(int num_insertions, int num_removals,
-                                         int max_value, int seed) {
+[[nodiscard]] std::vector<int> generate_random_queries(int num_insertions,
+                                                       int num_removals,
+                                                       int max_value,
+                                                       int seed) {
   assert(0 <= num_removals && num_removals <= num_insertions &&
          num_insertions <= 100'000'000);
   assert(0 < max_value);
