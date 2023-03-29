@@ -17,30 +17,28 @@
 /// @return a list of random queries where nonnegative values represent
 /// insertions and negative ones represent removals, with ~x removing a
 /// previously inserted value of x
-[[nodiscard]] std::vector<int> generate_random_queries(int num_insertions,
-                                                       int num_removals,
-                                                       int max_value,
-                                                       int seed) {
-  assert(0 <= num_removals && num_removals <= num_insertions &&
-         num_insertions <= 100'000'000);
-  assert(0 < max_value);
+[[nodiscard]] std::vector<int> generate_random_queries(
+    unsigned int num_insertions, unsigned int num_removals,
+    unsigned int max_value, unsigned int seed) {
+  assert(num_removals <= num_insertions && num_insertions <= 100'000'000);
+  assert(0 < max_value && max_value <= std::numeric_limits<int>::max());
 
   std::mt19937 gen(seed);
 
   std::vector<int> insertions(num_insertions);
   for (auto& insertion : insertions) {
     // Note: std::uniform_int_distribution is not portable
-    insertion = gen() % max_value;
+    insertion = static_cast<int>(gen() % max_value);
   }
 
   std::vector<int> removals = insertions;
   // Note: std::shuffle is not portable either
-  for (int first = 0; first < num_removals; ++first) {
-    const int second = gen() % num_insertions;
+  for (size_t first = 0; first < num_removals; ++first) {
+    const auto second = gen() % num_insertions;
     std::swap(removals[first], removals[second]);
   }
 
-  for (int first = 0; first < num_removals; ++first) {
+  for (size_t first = 0; first < num_removals; ++first) {
     removals[first] = ~removals[first];
   }
 

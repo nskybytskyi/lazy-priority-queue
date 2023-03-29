@@ -17,7 +17,7 @@
 /// insertions and negative ones represent removals, with ~x removing a
 /// previously inserted value of x
 /// @return (multi)set difference of all inserted
-std::vector<int> process_queries_sort(std::vector<int> queries) {
+[[nodiscard]] std::vector<int> process_queries_sort(std::vector<int> queries) {
   auto pivot_it = std::find_if(queries.begin(), queries.end(),
                                [](auto&& query) { return query < 0; });
   std::sort(queries.begin(), pivot_it);
@@ -26,8 +26,10 @@ std::vector<int> process_queries_sort(std::vector<int> queries) {
   std::sort(pivot_it, queries.end());
 
   std::vector<int> answer;
-  answer.reserve(std::distance(queries.begin(), pivot_it) -
-                 std::distance(pivot_it, queries.end()));
+  const auto num_insertions = std::distance(queries.begin(), pivot_it);
+  const auto num_removals = std::distance(pivot_it, queries.end());
+  answer.reserve(num_insertions - num_removals);
+
   std::set_difference(queries.begin(), pivot_it, pivot_it, queries.end(),
                       std::back_inserter(answer));
   return answer;
@@ -70,7 +72,7 @@ std::vector<int> process_queries_sort(std::vector<int> queries) {
   }
 
   std::vector<int> answer;
-  answer.reserve(container.size());
+  answer.reserve(static_cast<size_t>(container.size()));
   while (!container.empty()) {
     answer.push_back(container.top());
     container.pop();
