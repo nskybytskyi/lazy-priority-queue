@@ -5,7 +5,7 @@
 struct S {
   int id;
 
-  S(int i, double d, std::string s) : id{i} {
+  S(int i, double d, const std::string& s) : id{i} {
     std::cout << "S::S(" << i << ", " << d << ", \"" << s << "\");\n";
   }
 

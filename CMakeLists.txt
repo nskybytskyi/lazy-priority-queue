@@ -12,6 +12,11 @@ target_compile_options(compiler_flags INTERFACE
   "$<${msvc_cxx}:-W3>"
 )
 
+find_program(CMAKE_CXX_CPPCHECK NAMES cppcheck)
+if(CMAKE_CXX_CPPCHECK)
+	list(APPEND CMAKE_CXX_CPPCHECK "--enable=all" "--suppress=missingIncludeSystem")
+endif()
+
 enable_testing()
 
 include(FetchContent)

@@ -26,10 +26,9 @@
   std::mt19937 gen(seed);
 
   std::vector<int> insertions(num_insertions);
-  for (auto& insertion : insertions) {
-    // Note: std::uniform_int_distribution is not portable
-    insertion = static_cast<int>(gen() % max_value);
-  }
+  // Note: std::uniform_int_distribution is not portable
+  std::generate(insertions.begin(), insertions.end(),
+                [max_value, &gen]() { return gen() % max_value; });
 
   std::vector<int> removals = insertions;
   // Note: std::shuffle is not portable either
