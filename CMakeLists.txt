@@ -12,9 +12,24 @@ target_compile_options(compiler_flags INTERFACE
   "$<${msvc_cxx}:-W3>"
 )
 
+# Find CppCheck executable
 find_program(CMAKE_CXX_CPPCHECK NAMES cppcheck)
+
+# If CppCheck executable found
 if(CMAKE_CXX_CPPCHECK)
-	list(APPEND CMAKE_CXX_CPPCHECK "--enable=all" "--suppress=missingIncludeSystem")
+  # Check CppCheck version
+  set(CPP_CHECK_CMD ${CMAKE_CXX_CPPCHECK} --version)
+  execute_process(COMMAND ${CPP_CHECK_CMD}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    RESULT_VARIABLE CPP_CHECK_RESULT
+    OUTPUT_VARIABLE CPP_CHECK_VERSION
+    ERROR_VARIABLE CPP_CHECK_ERROR)
+
+  # Check if version could be extracted
+  if(CPP_CHECK_RESULT EQUAL 0)
+    # Append desired arguments to CppCheck
+	  list(APPEND CMAKE_CXX_CPPCHECK "--enable=all" "--suppress=missingIncludeSystem")
+  endif()
 endif()
 
 enable_testing()
