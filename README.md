@@ -1,13 +1,17 @@
+# Overview
+
 This project provides an implementation of std::priority_queue with implicit removals.
 An explicit removal is performed only when the accessed top element has been removed.
 The behavior is undefined if the element being removed was not present in the queue. 
+
+# Tools
 
 [![Build Status (GitHub Actions)](https://github.com/nskybytskyi/lazy-priority-queue/workflows/CMake%20Tests/badge.svg)](https://github.com/nskybytskyi/lazy-priority-queue/actions?query=workflow%3A"CMake%20Tests")
 
 This project uses a variety of tools and utilities that accompany the algorithmic part:
 - [x] CMake:
     - [x] googletest integration;
-    - [ ] cppcheck integration;
+    - [x] cppcheck integration;
     - [ ] clang-tidy integration.
 
 - [ ] Clang tools:
@@ -37,6 +41,15 @@ This project uses a variety of tools and utilities that accompany the algorithmi
 
 - [ ] GitHub community guidelines:
     - [x] code of conduct;
-    - [ ] contributing guidelines;
-    - [ ] security policy;
+    - [x] contributing guidelines;
+    - [x] security policy;
     - [ ] issue and PR templates.
+
+# Contributing
+
+Thank you for investing your time in contributing to one of my projects!
+
+Please make sure that any and all contributions you make through issues, pull requests, code reviews, etc. MUST follow
+the [contributing guidelines](https://github.com/nskybytskyi/.github/blob/main/CONTRIBUTING.md),
+the [security policy](https://github.com/nskybytskyi/.github/blob/main/SECURITY.md), and
+the [code of conduct](https://github.com/nskybytskyi/.github/blob/main/CODE_OF_CONDUCT.md).
