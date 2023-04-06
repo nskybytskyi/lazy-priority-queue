@@ -429,3 +429,12 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# CMake build directory
+build/
+
+# Doxygen docs directory
+docs/
+
+# Visual Studio Code files
+.vscode/
